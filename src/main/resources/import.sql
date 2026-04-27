@@ -1,0 +1,1 @@
+-- Script vacío, la base de datos ya tiene datos en PostgreSQL local
