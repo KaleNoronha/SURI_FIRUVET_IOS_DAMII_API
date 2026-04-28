@@ -1,14 +1,19 @@
 package com.suirfiruvet.resource;
 
 import com.suirfiruvet.dto.MascotaDTO;
+import com.suirfiruvet.dto.MascotaRequest;
+import com.suirfiruvet.entity.Cliente;
 import com.suirfiruvet.entity.Mascota;
+import com.suirfiruvet.entity.TipoMascota;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
+import jakarta.transaction.Transactional;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import java.util.List;
+import java.util.Map;
 
 @Path("/api/mascotas")
 @Produces(MediaType.APPLICATION_JSON)
@@ -41,5 +46,33 @@ public class MascotaResource {
         }).toList();
 
         return Response.ok(result).build();
+    }
+
+    @POST
+    @Transactional
+    public Response crear(MascotaRequest req) {
+        if (req.getUid() == null || req.getUid().isBlank())
+            return Response.status(400).entity(Map.of("error", "El campo uid es requerido.")).build();
+        if (req.getNombMas() == null || req.getNombMas().isBlank())
+            return Response.status(400).entity(Map.of("error", "El campo nombMas es requerido.")).build();
+
+        List<Cliente> clientes = em.createQuery("FROM Cliente c WHERE c.uid = :uid", Cliente.class)
+            .setParameter("uid", req.getUid()).getResultList();
+        if (clientes.isEmpty())
+            return Response.status(404).entity(Map.of("error", "No se encontró cliente con ese uid.")).build();
+
+        Mascota mascota = new Mascota();
+        mascota.setNombMas(req.getNombMas());
+        mascota.setTipoMascota(em.find(TipoMascota.class, req.getIdTipoMascota()));
+        mascota.setCliente(clientes.get(0));
+        em.persist(mascota);
+
+        MascotaDTO dto = new MascotaDTO();
+        dto.setId(mascota.getId());
+        dto.setNombMas(mascota.getNombMas());
+        dto.setIdTipoMascota(mascota.getTipoMascota().getId());
+        dto.setNombreTipo(mascota.getTipoMascota().getNombre());
+        dto.setIdCliente(mascota.getCliente().getId());
+        return Response.status(Response.Status.CREATED).entity(dto).build();
     }
 }
