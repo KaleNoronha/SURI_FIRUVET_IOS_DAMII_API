@@ -9,4 +9,6 @@ public class MascotaDTO {
     private Long idTipoMascota;
     private String nombreTipo;
     private Long idCliente;
+    private String apodos;
+    private String alergias;
 }

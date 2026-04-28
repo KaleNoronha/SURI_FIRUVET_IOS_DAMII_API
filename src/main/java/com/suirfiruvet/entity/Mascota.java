@@ -22,4 +22,7 @@ public class Mascota {
     @ManyToOne
     @JoinColumn(name = "idcliente")
     private Cliente cliente;
+
+    private String apodos;
+    private String alergias;
 }

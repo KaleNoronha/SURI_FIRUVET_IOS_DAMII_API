@@ -65,6 +65,8 @@ public class MascotaResource {
         mascota.setNombMas(req.getNombMas());
         mascota.setTipoMascota(em.find(TipoMascota.class, req.getIdTipoMascota()));
         mascota.setCliente(clientes.get(0));
+        mascota.setApodos(req.getApodos());
+        mascota.setAlergias(req.getAlergias());
         em.persist(mascota);
 
         MascotaDTO dto = new MascotaDTO();
@@ -73,6 +75,8 @@ public class MascotaResource {
         dto.setIdTipoMascota(mascota.getTipoMascota().getId());
         dto.setNombreTipo(mascota.getTipoMascota().getNombre());
         dto.setIdCliente(mascota.getCliente().getId());
+        dto.setApodos(mascota.getApodos());
+        dto.setAlergias(mascota.getAlergias());
         return Response.status(Response.Status.CREATED).entity(dto).build();
     }
 }
