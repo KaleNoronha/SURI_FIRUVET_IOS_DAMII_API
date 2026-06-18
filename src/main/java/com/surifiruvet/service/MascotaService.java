@@ -1,7 +1,7 @@
-package com.suirfiruvet.service;
+package com.surifiruvet.service;
 
-import com.suirfiruvet.dto.MascotaDTO;
-import com.suirfiruvet.entity.Mascota;
+import com.surifiruvet.dto.MascotaDTO;
+import com.surifiruvet.entity.Mascota;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;

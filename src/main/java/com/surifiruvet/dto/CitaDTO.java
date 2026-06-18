@@ -1,4 +1,4 @@
-package com.suirfiruvet.dto;
+package com.surifiruvet.dto;
 
 import lombok.Data;
 import java.time.LocalDateTime;

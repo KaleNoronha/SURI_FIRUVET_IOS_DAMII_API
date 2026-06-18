@@ -1,7 +1,7 @@
-package com.suirfiruvet.resource;
+package com.surifiruvet.resource;
 
-import com.suirfiruvet.dto.CitaRequest;
-import com.suirfiruvet.service.CitaService;
+import com.surifiruvet.dto.CitaRequest;
+import com.surifiruvet.service.CitaService;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;

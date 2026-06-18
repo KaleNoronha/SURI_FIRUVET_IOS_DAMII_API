@@ -1,23 +1,23 @@
-package com.suirfiruvet.resource;
+package com.surifiruvet.resource;
 
-import com.suirfiruvet.service.ClinicaService;
+import com.surifiruvet.service.MascotaService;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
-@Path("/api/clinicas")
+@Path("/api/mascotas")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 @ApplicationScoped
-public class ClinicaResource {
+public class MascotaResource {
 
     @Inject
-    ClinicaService clinicaService;
+    MascotaService mascotaService;
 
     @GET
-    public Response getAll() {
-        return Response.ok(clinicaService.getAll()).build();
+    public Response getByUid(@QueryParam("uid") String uid) {
+        return Response.ok(mascotaService.getByUid(uid)).build();
     }
 }

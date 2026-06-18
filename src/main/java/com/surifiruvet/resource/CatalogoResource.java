@@ -1,6 +1,6 @@
-package com.suirfiruvet.resource;
+package com.surifiruvet.resource;
 
-import com.suirfiruvet.service.CatalogoService;
+import com.surifiruvet.service.CatalogoService;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;

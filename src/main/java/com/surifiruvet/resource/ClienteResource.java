@@ -1,7 +1,7 @@
-package com.suirfiruvet.resource;
+package com.surifiruvet.resource;
 
-import com.suirfiruvet.dto.ClienteRequest;
-import com.suirfiruvet.service.ClienteService;
+import com.surifiruvet.dto.ClienteRequest;
+import com.surifiruvet.service.ClienteService;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;

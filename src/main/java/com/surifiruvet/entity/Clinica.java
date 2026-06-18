@@ -1,4 +1,4 @@
-package com.suirfiruvet.entity;
+package com.surifiruvet.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;

@@ -1,7 +1,7 @@
-package com.suirfiruvet.service;
+package com.surifiruvet.service;
 
-import com.suirfiruvet.entity.TipoCita;
-import com.suirfiruvet.entity.TipoMascota;
+import com.surifiruvet.entity.TipoCita;
+import com.surifiruvet.entity.TipoMascota;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;

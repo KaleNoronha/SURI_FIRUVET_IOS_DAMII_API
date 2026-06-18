@@ -1,6 +1,6 @@
-package com.suirfiruvet.service;
+package com.surifiruvet.service;
 
-import com.suirfiruvet.entity.Clinica;
+import com.surifiruvet.entity.Clinica;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;

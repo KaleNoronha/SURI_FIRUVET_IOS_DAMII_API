@@ -1,12 +1,12 @@
-package com.suirfiruvet.entity;
+package com.surifiruvet.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "tipo_cita")
-public class TipoCita {
+@Table(name = "tipo_mascota")
+public class TipoMascota {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

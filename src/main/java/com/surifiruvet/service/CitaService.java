@@ -1,8 +1,8 @@
-package com.suirfiruvet.service;
+package com.surifiruvet.service;
 
-import com.suirfiruvet.dto.CitaDTO;
-import com.suirfiruvet.dto.CitaRequest;
-import com.suirfiruvet.entity.*;
+import com.surifiruvet.dto.CitaDTO;
+import com.surifiruvet.dto.CitaRequest;
+import com.surifiruvet.entity.*;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;

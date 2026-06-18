@@ -1,4 +1,4 @@
-package com.suirfiruvet.entity;
+package com.surifiruvet.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;

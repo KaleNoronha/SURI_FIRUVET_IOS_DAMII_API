@@ -1,4 +1,4 @@
-package com.suirfiruvet.exception;
+package com.surifiruvet.exception;
 
 import jakarta.persistence.PersistenceException;
 import jakarta.ws.rs.core.Response;
