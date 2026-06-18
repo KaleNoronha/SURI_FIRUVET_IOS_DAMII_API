@@ -1,11 +1,10 @@
-package com.suirfiruvet.resource;
+package com.suirfiruvet.exception;
 
 import jakarta.persistence.PersistenceException;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.ext.ExceptionMapper;
 import jakarta.ws.rs.ext.Provider;
 import org.hibernate.exception.ConstraintViolationException;
-
 import java.util.Map;
 
 @Provider
@@ -30,8 +29,6 @@ public class GlobalExceptionHandler implements ExceptionMapper<Exception> {
     }
 
     private Response error(int status, String mensaje) {
-        return Response.status(status)
-            .entity(Map.of("error", mensaje))
-            .build();
+        return Response.status(status).entity(Map.of("error", mensaje)).build();
     }
 }
