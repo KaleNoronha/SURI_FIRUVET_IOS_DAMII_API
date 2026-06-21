@@ -1,5 +1,6 @@
 package com.surifiruvet.resource;
 
+import com.surifiruvet.dto.CitaDTO;
 import com.surifiruvet.dto.CitaRequest;
 import com.surifiruvet.service.CitaService;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -7,6 +8,8 @@ import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+
+import java.util.List;
 import java.util.Map;
 
 @Path("/api/citas")
@@ -57,5 +60,23 @@ public class CitaResource {
         if (status == 404) return Response.status(404).entity(Map.of("error", "Cita no encontrada.")).build();
         if (status == 403) return Response.status(403).entity(Map.of("error", "No tienes permiso para eliminar esta cita.")).build();
         return Response.noContent().build();
+    }
+    
+ //NUEVO
+    @GET
+    @Path("/{id}/seguimiento")
+    public Response getCitaConSeguimiento(@PathParam("id") Long id) {
+        CitaDTO dto = citaService.getCitaConSeguimiento(id);
+        if (dto == null) {
+            return Response.status(404).entity("{\"error\":\"Cita no encontrada\"}").build();
+        }
+        return Response.ok(dto).build();
+    }
+
+    @GET
+    @Path("/arbol")
+    public Response getCitasArbol() {
+        List<CitaDTO> arbol = citaService.getCitasArbol();
+        return Response.ok(arbol).build();
     }
 }

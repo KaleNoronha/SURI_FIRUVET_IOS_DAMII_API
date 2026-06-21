@@ -1,5 +1,7 @@
 package com.surifiruvet.resource;
 
+import java.util.List;
+import com.surifiruvet.dto.TipoCitaDTO;
 import com.surifiruvet.service.CatalogoService;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -26,5 +28,13 @@ public class CatalogoResource {
     @Path("/tipos-mascota")
     public Response getTiposMascota() {
         return Response.ok(catalogoService.getTiposMascota()).build();
+    }
+    
+    //-----------NUEVO------------
+    @GET
+    @Path("/tipos-cita/arbol")
+    public Response getTiposCitaArbol() {
+        List<TipoCitaDTO> arbol = catalogoService.getTiposCitaArbol();
+        return Response.ok(arbol).build();
     }
 }

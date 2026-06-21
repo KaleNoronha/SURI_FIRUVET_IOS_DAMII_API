@@ -3,6 +3,11 @@ package com.surifiruvet.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Data
 @Entity
@@ -32,4 +37,15 @@ public class Cita {
     @ManyToOne
     @JoinColumn(name = "idclinica")
     private Clinica clinica;
+    
+ //NUEVO
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "cita_anterior_id")
+    @JsonBackReference
+    private Cita citaAnterior;
+
+    //NUEVO
+    @OneToMany(mappedBy = "citaAnterior", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonManagedReference
+    private List<Cita> citasSeguimiento = new ArrayList<>();
 }

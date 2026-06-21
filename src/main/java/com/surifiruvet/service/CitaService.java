@@ -82,4 +82,35 @@ public class CitaService {
         dto.setNombreClinica(c.getClinica().getNombre());
         return dto;
     }
+    
+    
+ //NUEVO MÉTODO
+    public CitaDTO getCitaConSeguimiento(Long id) {
+        Cita cita = em.find(Cita.class, id);
+        if (cita == null) return null;
+        return buildSeguimientoTree(cita);
+    }
+
+    private CitaDTO buildSeguimientoTree(Cita cita) {
+        CitaDTO dto = toDTO(cita); 
+        dto.setCitaAnteriorId(cita.getCitaAnterior() != null ? cita.getCitaAnterior().getIdCita() : null);
+        
+        if (cita.getCitasSeguimiento() != null && !cita.getCitasSeguimiento().isEmpty()) {
+            List<CitaDTO> seguimientoDTO = cita.getCitasSeguimiento().stream()
+                .map(this::buildSeguimientoTree) //Recursividad aquí
+                .toList();
+            dto.setCitasSeguimiento(seguimientoDTO);
+        }
+        return dto;
+    }
+
+    public List<CitaDTO> getCitasArbol() {
+        List<Cita> raices = em.createQuery(
+            "FROM Cita c WHERE c.citaAnterior IS NULL", 
+            Cita.class).getResultList();
+        
+        return raices.stream()
+            .map(this::buildSeguimientoTree)
+            .toList();
+    }
 }
