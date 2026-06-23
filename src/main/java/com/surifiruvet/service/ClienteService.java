@@ -129,7 +129,6 @@ public class ClienteService {
         dto.setApeCli(c.getApeCli());
         dto.setFecNac(c.getFecNac());
         dto.setUid(c.getUid());
-        dto.setNombreCompleto();
         return dto;
     }
 }

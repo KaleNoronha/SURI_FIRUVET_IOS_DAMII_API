@@ -33,7 +33,8 @@ public class AuditoriaEventConsumer {
                 json.getString("generadoEn")
         );
 
-        LOG.infof("Evento auditoría recibido: %s", mensaje);
+        LOG.infof("Evento auditoría recibido: entidad=%s accion=%s id=%s",
+                evento.entidad(), evento.accion(), evento.idRegistro());
 
         eventoLogService.registrarAuditoria(evento);
     }

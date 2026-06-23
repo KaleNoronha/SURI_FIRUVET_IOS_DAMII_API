@@ -41,21 +41,22 @@ public class CitaResource {
     @PUT
     @Path("/{id}")
     public Response modificar(@PathParam("id") Long id, CitaRequest req) {
-        var result = citaService.modificar(id, req);
-        if (result.isEmpty())
-            return Response.status(404).entity(Map.of("error", "Cita no encontrada.")).build();
-        var dto = result.get();
-        if (dto.getIdCita() == null)
-            return Response.status(403).entity(Map.of("error", "No tienes permiso para modificar esta cita.")).build();
-        return Response.ok(dto).build();
+        int resultado = citaService.modificar(id, req);
+        return switch (resultado) {
+            case 404 -> Response.status(Response.Status.NOT_FOUND).entity(Map.of("error", "Cita no encontrada.")).build();
+            case 403 -> Response.status(Response.Status.FORBIDDEN).entity(Map.of("error", "No tienes permiso para modificar esta cita.")).build();
+            default -> Response.ok().build();
+        };
     }
 
     @DELETE
     @Path("/{id}")
     public Response eliminar(@PathParam("id") Long id, @QueryParam("uid") String uid) {
         int status = citaService.eliminar(id, uid);
-        if (status == 404) return Response.status(404).entity(Map.of("error", "Cita no encontrada.")).build();
-        if (status == 403) return Response.status(403).entity(Map.of("error", "No tienes permiso para eliminar esta cita.")).build();
-        return Response.noContent().build();
+        return switch (status) {
+            case 404 -> Response.status(Response.Status.NOT_FOUND).entity(Map.of("error", "Cita no encontrada.")).build();
+            case 403 -> Response.status(Response.Status.FORBIDDEN).entity(Map.of("error", "No tienes permiso para eliminar esta cita.")).build();
+            default -> Response.noContent().build();
+        };
     }
 }

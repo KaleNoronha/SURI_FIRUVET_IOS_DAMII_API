@@ -2,14 +2,15 @@ package com.surifiruvet.resource;
 
 import com.surifiruvet.entity.EventoLog;
 import com.surifiruvet.service.EventoLogService;
+import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
-
 import java.util.List;
 
 @Path("/api/logs")
 @Produces(MediaType.APPLICATION_JSON)
+@ApplicationScoped
 public class EventoLogResource {
 
     @Inject

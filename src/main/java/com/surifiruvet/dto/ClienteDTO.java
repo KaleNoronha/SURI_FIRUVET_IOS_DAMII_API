@@ -10,9 +10,7 @@ public class ClienteDTO {
     private String apeCli;
     private LocalDate fecNac;
     private String uid;
-    private String nombreCompleto;
-    
-    public void setNombreCompleto() {
-        this.nombreCompleto = (nombCli != null ? nombCli : "") + " " + (apeCli != null ? apeCli : "");
+    public String getNombreCompleto() {
+        return (nombCli != null ? nombCli : "") + " " + (apeCli != null ? apeCli : "");
     }
 }

@@ -50,7 +50,6 @@ public class CitaService {
         em.persist(cita);
         
         CitaDTO dto = toDTO(cita);
-        
         publicarAuditoria(
                 "CITA_CREADA",
                 "CREAR",
@@ -58,24 +57,22 @@ public class CitaService {
                 dto,
                 req.getUid()
         );
-        
-        return Optional.of(toDTO(cita));
+        return Optional.of(dto);
     }
 
     @Transactional
-    public Optional<CitaDTO> modificar(Long id, CitaRequest req) {
+    public int modificar(Long id, CitaRequest req) {
         Cita cita = em.find(Cita.class, id);
-        if (cita == null) return Optional.empty();
-        if (!cita.getCliente().getUid().equals(req.getUid())) return Optional.of(new CitaDTO()); // marcador de forbidden
+        if (cita == null) return 404;
+        if (!cita.getCliente().getUid().equals(req.getUid())) return 403;
 
         cita.setTipoCita(em.find(TipoCita.class, req.getIdTipoCita()));
         cita.setFecha(req.getFecha());
         cita.setComentario(req.getComentario());
         cita.setMascota(em.find(Mascota.class, req.getIdMascota()));
         cita.setClinica(em.find(Clinica.class, req.getIdClinica()));
-        
-        CitaDTO dto = toDTO(cita);
 
+        CitaDTO dto = toDTO(cita);
         publicarAuditoria(
                 "CITA_MODIFICADA",
                 "MODIFICAR",
@@ -83,8 +80,8 @@ public class CitaService {
                 dto,
                 req.getUid()
         );
-        
-        return Optional.of(toDTO(cita));
+
+        return 200;
     }
 
     @Transactional
