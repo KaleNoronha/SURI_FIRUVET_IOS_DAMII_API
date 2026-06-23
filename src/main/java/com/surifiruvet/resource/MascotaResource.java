@@ -18,8 +18,8 @@ public class MascotaResource {
     MascotaService mascotaService;
 
     @GET
-    public Response getByUid(@QueryParam("uid") String uid) {
-        return Response.ok(mascotaService.getByUid(uid)).build();
+    public Response getByIdCliente(@QueryParam("idCliente") Long idCliente) {
+        return Response.ok(mascotaService.getByIdCliente(idCliente)).build();
     }
     
     @GET
@@ -47,8 +47,8 @@ public class MascotaResource {
     
     @DELETE
     @Path("/{id}")
-    public Response eliminar(@PathParam("id") Long id, @QueryParam("uid") String uid) {
-        int resultado = mascotaService.eliminar(id, uid);
+    public Response eliminar(@PathParam("id") Long id, @QueryParam("idCliente") Long idCliente) {
+        int resultado = mascotaService.eliminar(id, idCliente);
         return switch (resultado) {
             case 404 -> Response.status(Response.Status.NOT_FOUND).build();
             case 403 -> Response.status(Response.Status.FORBIDDEN).build();

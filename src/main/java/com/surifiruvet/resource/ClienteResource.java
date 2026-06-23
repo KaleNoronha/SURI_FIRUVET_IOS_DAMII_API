@@ -19,17 +19,14 @@ public class ClienteResource {
     ClienteService clienteService;
 
     @GET
-    @Path("/{id}")
-    public Response getById(@PathParam("id") Long id) {
-        return clienteService.getById(id)
-            .map(c -> Response.ok(c).build())
-            .orElse(Response.status(Response.Status.NOT_FOUND).build());
+    public Response listar() {
+        return Response.ok(clienteService.listar()).build();
     }
 
     @GET
-    @Path("/uid/{uid}")
-    public Response getByUid(@PathParam("uid") String uid) {
-        return clienteService.getByUid(uid)
+    @Path("/{id}")
+    public Response getById(@PathParam("id") Long id) {
+        return clienteService.getById(id)
             .map(c -> Response.ok(c).build())
             .orElse(Response.status(Response.Status.NOT_FOUND).build());
     }
@@ -48,7 +45,7 @@ public class ClienteResource {
 
         return Response.status(Response.Status.CREATED).entity(clienteService.crear(req)).build();
     }
-    
+
     @PUT
     @Path("/{id}")
     public Response modificar(@PathParam("id") Long id, ClienteRequest req) {
@@ -56,14 +53,13 @@ public class ClienteResource {
             .map(dto -> Response.ok(dto).build())
             .orElse(Response.status(Response.Status.NOT_FOUND).build());
     }
-    
+
     @DELETE
     @Path("/{id}")
-    public Response eliminar(@PathParam("id") Long id, @QueryParam("uid") String uid) {
-        int resultado = clienteService.eliminar(id, uid);
+    public Response eliminar(@PathParam("id") Long id) {
+        int resultado = clienteService.eliminar(id);
         return switch (resultado) {
             case 404 -> Response.status(Response.Status.NOT_FOUND).build();
-            case 403 -> Response.status(Response.Status.FORBIDDEN).build();
             default -> Response.status(Response.Status.NO_CONTENT).build();
         };
     }

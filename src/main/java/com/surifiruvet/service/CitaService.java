@@ -18,14 +18,14 @@ public class CitaService {
 
     @Inject
     EntityManager em;
-    
+
     @Inject
     AuditoriaEventPublisher auditoriaEventPublisher;
 
-    public List<CitaDTO> getByUid(String uid) {
-        List<Cita> citas = uid != null
-            ? em.createQuery("FROM Cita c WHERE c.cliente.uid = :uid", Cita.class)
-                .setParameter("uid", uid).getResultList()
+    public List<CitaDTO> getByIdCliente(Long idCliente) {
+        List<Cita> citas = idCliente != null
+            ? em.createQuery("FROM Cita c WHERE c.cliente.id = :idCliente", Cita.class)
+                .setParameter("idCliente", idCliente).getResultList()
             : em.createQuery("FROM Cita", Cita.class).getResultList();
         return citas.stream().map(this::toDTO).toList();
     }
@@ -36,27 +36,20 @@ public class CitaService {
 
     @Transactional
     public Optional<CitaDTO> crear(CitaRequest req) {
-        List<Cliente> clientes = em.createQuery("FROM Cliente c WHERE c.uid = :uid", Cliente.class)
-            .setParameter("uid", req.getUid()).getResultList();
-        if (clientes.isEmpty()) return Optional.empty();
+        Cliente cliente = em.find(Cliente.class, req.getIdCliente());
+        if (cliente == null) return Optional.empty();
 
         Cita cita = new Cita();
         cita.setTipoCita(em.find(TipoCita.class, req.getIdTipoCita()));
         cita.setFecha(req.getFecha());
         cita.setComentario(req.getComentario());
         cita.setMascota(em.find(Mascota.class, req.getIdMascota()));
-        cita.setCliente(clientes.get(0));
+        cita.setCliente(cliente);
         cita.setClinica(em.find(Clinica.class, req.getIdClinica()));
         em.persist(cita);
-        
+
         CitaDTO dto = toDTO(cita);
-        publicarAuditoria(
-                "CITA_CREADA",
-                "CREAR",
-                "Se creó una nueva cita",
-                dto,
-                req.getUid()
-        );
+        publicarAuditoria("CITA_CREADA", "CREAR", "Se creó una nueva cita", dto, req.getIdCliente());
         return Optional.of(dto);
     }
 
@@ -64,7 +57,7 @@ public class CitaService {
     public int modificar(Long id, CitaRequest req) {
         Cita cita = em.find(Cita.class, id);
         if (cita == null) return 404;
-        if (!cita.getCliente().getUid().equals(req.getUid())) return 403;
+        if (!cita.getCliente().getId().equals(req.getIdCliente())) return 403;
 
         cita.setTipoCita(em.find(TipoCita.class, req.getIdTipoCita()));
         cita.setFecha(req.getFecha());
@@ -73,43 +66,23 @@ public class CitaService {
         cita.setClinica(em.find(Clinica.class, req.getIdClinica()));
 
         CitaDTO dto = toDTO(cita);
-        publicarAuditoria(
-                "CITA_MODIFICADA",
-                "MODIFICAR",
-                "Se modificó una cita",
-                dto,
-                req.getUid()
-        );
-
+        publicarAuditoria("CITA_MODIFICADA", "MODIFICAR", "Se modificó una cita", dto, req.getIdCliente());
         return 200;
     }
 
     @Transactional
-    public int eliminar(Long id, String uid) {
+    public int eliminar(Long id, Long idCliente) {
         Cita cita = em.find(Cita.class, id);
         if (cita == null) return 404;
-        if (!cita.getCliente().getUid().equals(uid)) return 403;
+        if (!cita.getCliente().getId().equals(idCliente)) return 403;
+
         CitaDTO dto = toDTO(cita);
         em.remove(cita);
-        
-        publicarAuditoria(
-                "CITA_ELIMINADA",
-                "ELIMINAR",
-                "Se eliminó una cita",
-                dto,
-                uid
-        );
-        
+        publicarAuditoria("CITA_ELIMINADA", "ELIMINAR", "Se eliminó una cita", dto, idCliente);
         return 204;
     }
-    
-    private void publicarAuditoria(
-            String tipoEvento,
-            String accion,
-            String descripcion,
-            CitaDTO dto,
-            String uid
-    ) {
+
+    private void publicarAuditoria(String tipoEvento, String accion, String descripcion, CitaDTO dto, Long idCliente) {
         auditoriaEventPublisher.publicar(
                 AuditoriaEvent.crear(
                         tipoEvento,
@@ -117,7 +90,7 @@ public class CitaService {
                         accion,
                         "cita",
                         dto.getIdCita(),
-                        uid,
+                        idCliente.toString(),
                         descripcion,
                         JsonObject.mapFrom(dto).encode()
                 )

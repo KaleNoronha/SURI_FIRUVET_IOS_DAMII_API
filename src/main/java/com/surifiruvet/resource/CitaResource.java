@@ -19,8 +19,8 @@ public class CitaResource {
     CitaService citaService;
 
     @GET
-    public Response getByUid(@QueryParam("uid") String uid) {
-        return Response.ok(citaService.getByUid(uid)).build();
+    public Response getByIdCliente(@QueryParam("idCliente") Long idCliente) {
+        return Response.ok(citaService.getByIdCliente(idCliente)).build();
     }
 
     @GET
@@ -51,8 +51,8 @@ public class CitaResource {
 
     @DELETE
     @Path("/{id}")
-    public Response eliminar(@PathParam("id") Long id, @QueryParam("uid") String uid) {
-        int status = citaService.eliminar(id, uid);
+    public Response eliminar(@PathParam("id") Long id, @QueryParam("idCliente") Long idCliente) {
+        int status = citaService.eliminar(id, idCliente);
         return switch (status) {
             case 404 -> Response.status(Response.Status.NOT_FOUND).entity(Map.of("error", "Cita no encontrada.")).build();
             case 403 -> Response.status(Response.Status.FORBIDDEN).entity(Map.of("error", "No tienes permiso para eliminar esta cita.")).build();

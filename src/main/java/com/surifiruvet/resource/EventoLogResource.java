@@ -22,9 +22,9 @@ public class EventoLogResource {
     }
 
     @GET
-    @Path("/usuario/{uid}")
-    public List<EventoLog> porUsuario(@PathParam("uid") String uid) {
-        return eventoLogService.listarPorUid(uid);
+    @Path("/cliente/{idCliente}")
+    public List<EventoLog> porCliente(@PathParam("idCliente") Long idCliente) {
+        return eventoLogService.listarPorUid(idCliente.toString());
     }
 
     @GET

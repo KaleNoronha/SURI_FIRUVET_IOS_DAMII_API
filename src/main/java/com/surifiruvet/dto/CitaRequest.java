@@ -10,6 +10,5 @@ public class CitaRequest {
     private String comentario;
     private Long idMascota;
     private Long idCliente;
-    private String uid;
     private Long idClinica;
 }
