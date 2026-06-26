@@ -44,11 +44,24 @@ public class ClienteService {
         cliente.setApeCli(req.getApeCli());
         cliente.setFecNac(req.getFecNac());
         cliente.setUid(req.getUid());
+        // Default rol = 1 (usuario)
+        Long idRol = req.getIdRol() != null ? req.getIdRol() : 1L;
+        cliente.setRol(em.find(com.surifiruvet.entity.Rol.class, idRol));
         em.persist(cliente);
 
         ClienteDTO dto = toDTO(cliente);
         publicarAuditoria("CLIENTE_CREADO", "CREAR", "Se registró un nuevo cliente", dto);
         return dto;
+    }
+
+    @Transactional
+    public Optional<ClienteDTO> cambiarRol(Long id, Long idRol) {
+        Cliente cliente = em.find(Cliente.class, id);
+        if (cliente == null) return Optional.empty();
+        com.surifiruvet.entity.Rol rol = em.find(com.surifiruvet.entity.Rol.class, idRol);
+        if (rol == null) return Optional.empty();
+        cliente.setRol(rol);
+        return Optional.of(toDTO(cliente));
     }
 
     @Transactional
@@ -98,6 +111,13 @@ public class ClienteService {
         dto.setApeCli(c.getApeCli());
         dto.setFecNac(c.getFecNac());
         dto.setUid(c.getUid());
+        if (c.getRol() != null) {
+            dto.setIdRol(c.getRol().getId());
+            dto.setRolNombre(c.getRol().getNombre());
+        } else {
+            dto.setIdRol(1L);
+            dto.setRolNombre("usuario");
+        }
         return dto;
     }
 }

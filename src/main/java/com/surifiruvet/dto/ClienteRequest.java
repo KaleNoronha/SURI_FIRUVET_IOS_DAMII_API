@@ -11,4 +11,5 @@ public class ClienteRequest {
     @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate fecNac;
     private String uid;
+    private Long idRol; // optional on create, defaults to 1 (usuario)
 }

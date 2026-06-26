@@ -5,7 +5,6 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import java.time.LocalDate;
-
 @Getter
 @Setter
 @Entity
@@ -26,5 +25,10 @@ public class Cliente {
     @Column(name = "fecnac")
     private LocalDate fecNac;
 
+    @Column(name = "uid")
     private String uid;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "idrol")
+    private Rol rol;
 }

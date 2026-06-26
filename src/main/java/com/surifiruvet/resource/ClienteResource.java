@@ -54,6 +54,17 @@ public class ClienteResource {
             .orElse(Response.status(Response.Status.NOT_FOUND).build());
     }
 
+    @PATCH
+    @Path("/{id}/rol")
+    public Response cambiarRol(@PathParam("id") Long id, Map<String, Long> body) {
+        Long idRol = body.get("idRol");
+        if (idRol == null || (idRol != 1L && idRol != 2L))
+            return Response.status(400).entity(Map.of("error", "idRol inválido. Use 1 (usuario) o 2 (administrador).")).build();
+        return clienteService.cambiarRol(id, idRol)
+            .map(dto -> Response.ok(dto).build())
+            .orElse(Response.status(Response.Status.NOT_FOUND).build());
+    }
+
     @DELETE
     @Path("/{id}")
     public Response eliminar(@PathParam("id") Long id) {
