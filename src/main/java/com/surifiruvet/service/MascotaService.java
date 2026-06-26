@@ -48,6 +48,8 @@ public class MascotaService {
         mascota.setNombMas(req.getNombMas());
         mascota.setTipoMascota(tipoMascota);
         mascota.setCliente(cliente);
+        mascota.setApodos(req.getApodos());
+        mascota.setAlergias(req.getAlergias());
         em.persist(mascota);
 
         MascotaDTO dto = toDTO(mascota);
@@ -63,6 +65,8 @@ public class MascotaService {
 
         mascota.setNombMas(req.getNombMas());
         mascota.setTipoMascota(em.find(TipoMascota.class, req.getIdTipoMascota()));
+        mascota.setApodos(req.getApodos());
+        mascota.setAlergias(req.getAlergias());
 
         MascotaDTO dto = toDTO(mascota);
         publicarAuditoria("MASCOTA_MODIFICADA", "MODIFICAR", "Se modificó una mascota", dto, req.getIdCliente());
@@ -107,6 +111,8 @@ public class MascotaService {
         dto.setIdTipoMascota(m.getTipoMascota().getId());
         dto.setNombreTipo(m.getTipoMascota().getNombre());
         dto.setIdCliente(m.getCliente().getId());
+        dto.setApodos(m.getApodos());
+        dto.setAlergias(m.getAlergias());
         return dto;
     }
 }

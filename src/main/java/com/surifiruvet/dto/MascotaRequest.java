@@ -8,4 +8,6 @@ public class MascotaRequest {
     private Long idTipoMascota;
     private Long idCliente;
     private String uid;
+    private String apodos;
+    private String alergias;
 }
