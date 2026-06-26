@@ -14,7 +14,11 @@ public class GlobalExceptionHandler implements ExceptionMapper<Exception> {
     public Response toResponse(Exception e) {
         Throwable cause = getRootCause(e);
 
-        if (cause instanceof ConstraintViolationException) {
+        if (cause instanceof ConstraintViolationException cve) {
+            String msg = cve.getSQLException() != null ? cve.getSQLException().getMessage() : "";
+            if (msg.toLowerCase().contains("foreign key") || msg.toLowerCase().contains("fk") || msg.toLowerCase().contains("violates")) {
+                return error(409, "No se puede eliminar: el registro tiene datos asociados.");
+            }
             return error(400, "Datos inválidos o incompletos. Verifica los campos enviados.");
         }
         if (e instanceof PersistenceException) {

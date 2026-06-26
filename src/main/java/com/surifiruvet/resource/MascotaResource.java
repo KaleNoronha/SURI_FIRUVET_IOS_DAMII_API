@@ -7,6 +7,7 @@ import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import java.util.Map;
 
 @Path("/api/mascotas")
 @Produces(MediaType.APPLICATION_JSON)
@@ -51,7 +52,8 @@ public class MascotaResource {
         int resultado = mascotaService.eliminar(id, idCliente);
         return switch (resultado) {
             case 404 -> Response.status(Response.Status.NOT_FOUND).build();
-            case 403 -> Response.status(Response.Status.FORBIDDEN).build();
+            case 403 -> Response.status(Response.Status.FORBIDDEN).entity(Map.of("error", "No tienes permiso para eliminar esta mascota.")).build();
+            case 409 -> Response.status(Response.Status.CONFLICT).entity(Map.of("error", "No se puede eliminar la mascota porque tiene citas asociadas.")).build();
             default -> Response.status(Response.Status.NO_CONTENT).build();
         };
     }

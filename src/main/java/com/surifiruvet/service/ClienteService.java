@@ -84,6 +84,10 @@ public class ClienteService {
         Cliente cliente = em.find(Cliente.class, id);
         if (cliente == null) return 404;
 
+        long mascotas = em.createQuery("SELECT COUNT(m) FROM Mascota m WHERE m.cliente.id = :id", Long.class)
+            .setParameter("id", id).getSingleResult();
+        if (mascotas > 0) return 409;
+
         ClienteDTO dto = toDTO(cliente);
         em.remove(cliente);
         publicarAuditoria("CLIENTE_ELIMINADO", "ELIMINAR", "Se eliminó un cliente", dto);

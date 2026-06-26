@@ -66,6 +66,7 @@ public class ClienteResource {
         int resultado = clienteService.eliminar(id);
         return switch (resultado) {
             case 404 -> Response.status(Response.Status.NOT_FOUND).build();
+            case 409 -> Response.status(Response.Status.CONFLICT).entity(Map.of("error", "No se puede eliminar el cliente porque tiene mascotas asociadas.")).build();
             default -> Response.status(Response.Status.NO_CONTENT).build();
         };
     }

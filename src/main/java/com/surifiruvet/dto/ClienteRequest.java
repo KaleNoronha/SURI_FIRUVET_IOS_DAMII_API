@@ -23,7 +23,7 @@ public class ClienteRequest {
     @Size(max = 25, message = "apeCli no puede superar 25 caracteres.")
     private String apeCli;
 
-    @JsonFormat(pattern = "dd/MM/yyyy")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate fecNac; // opcional
 
     @NotBlank(message = "El campo uid es requerido.")

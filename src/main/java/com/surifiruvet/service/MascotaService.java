@@ -75,6 +75,10 @@ public class MascotaService {
         if (mascota == null) return 404;
         if (!mascota.getCliente().getId().equals(idCliente)) return 403;
 
+        long citas = em.createQuery("SELECT COUNT(c) FROM Cita c WHERE c.mascota.id = :id", Long.class)
+            .setParameter("id", id).getSingleResult();
+        if (citas > 0) return 409;
+
         MascotaDTO dto = toDTO(mascota);
         em.remove(mascota);
         publicarAuditoria("MASCOTA_ELIMINADA", "ELIMINAR", "Se eliminó una mascota", dto, idCliente);
