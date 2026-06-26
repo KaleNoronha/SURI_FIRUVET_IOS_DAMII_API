@@ -1,6 +1,7 @@
 package com.surifiruvet.service;
 
 import com.surifiruvet.dto.ClienteRequest;
+import com.surifiruvet.dto.UpdateClienteRequest;
 import com.surifiruvet.dto.ClienteDTO;
 import com.surifiruvet.entity.Cliente;
 import com.surifiruvet.messaging.AuditoriaEvent;
@@ -65,7 +66,7 @@ public class ClienteService {
     }
 
     @Transactional
-    public Optional<ClienteDTO> modificar(Long id, ClienteRequest req) {
+    public Optional<ClienteDTO> modificar(Long id, UpdateClienteRequest req) {
         Cliente cliente = em.find(Cliente.class, id);
         if (cliente == null) return Optional.empty();
 

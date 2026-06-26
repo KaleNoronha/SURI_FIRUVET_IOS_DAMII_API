@@ -1,6 +1,7 @@
 package com.surifiruvet.resource;
 
 import com.surifiruvet.dto.ClienteRequest;
+import com.surifiruvet.dto.UpdateClienteRequest;
 import com.surifiruvet.service.ClienteService;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -42,7 +43,7 @@ public class ClienteResource {
 
     @PUT
     @Path("/{id}")
-    public Response modificar(@PathParam("id") Long id, ClienteRequest req) {
+    public Response modificar(@PathParam("id") Long id, @Valid UpdateClienteRequest req) {
         return clienteService.modificar(id, req)
             .map(dto -> Response.ok(dto).build())
             .orElse(Response.status(Response.Status.NOT_FOUND).build());
