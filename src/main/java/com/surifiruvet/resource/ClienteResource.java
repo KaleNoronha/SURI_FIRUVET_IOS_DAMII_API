@@ -5,6 +5,7 @@ import com.surifiruvet.service.ClienteService;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
+import jakarta.validation.Valid;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import java.util.Map;
@@ -32,14 +33,7 @@ public class ClienteResource {
     }
 
     @POST
-    public Response crear(ClienteRequest req) {
-        if (req == null || req.getNombCli() == null || req.getNombCli().isBlank())
-            return Response.status(400).entity(Map.of("error", "El campo nombCli es requerido.")).build();
-        if (req.getApeCli() == null || req.getApeCli().isBlank())
-            return Response.status(400).entity(Map.of("error", "El campo apeCli es requerido.")).build();
-        if (req.getUid() == null || req.getUid().isBlank())
-            return Response.status(400).entity(Map.of("error", "El campo uid es requerido.")).build();
-
+    public Response crear(@Valid ClienteRequest req) {
         if (clienteService.existeByUid(req.getUid()))
             return Response.status(409).entity(Map.of("error", "Ya existe un cliente con ese uid.")).build();
 
