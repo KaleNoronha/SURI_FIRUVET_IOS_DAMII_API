@@ -33,6 +33,14 @@ public class ClienteResource {
             .orElse(Response.status(Response.Status.NOT_FOUND).build());
     }
 
+    @GET
+    @Path("/uid/{uid}")
+    public Response getByUid(@PathParam("uid") String uid) {
+        return clienteService.getByUid(uid)
+            .map(c -> Response.ok(c).build())
+            .orElse(Response.status(Response.Status.NOT_FOUND).build());
+    }
+
     @POST
     public Response crear(@Valid ClienteRequest req) {
         if (clienteService.existeByUid(req.getUid()))

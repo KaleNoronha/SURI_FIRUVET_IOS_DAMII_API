@@ -38,6 +38,14 @@ public class ClienteService {
             .getResultList().isEmpty();
     }
 
+    public Optional<ClienteDTO> getByUid(String uid) {
+        return em.createQuery("FROM Cliente c WHERE c.uid = :uid", Cliente.class)
+            .setParameter("uid", uid)
+            .getResultStream()
+            .findFirst()
+            .map(this::toDTO);
+    }
+
     @Transactional
     public ClienteDTO crear(ClienteRequest req) {
         Cliente cliente = new Cliente();
